@@ -136,6 +136,7 @@ public class GameControl : MonoBehaviour
                 else
                 {
                     GameObject newAsteroid = Instantiate(asteroid, pos, Quaternion.identity);
+                    newAsteroid.transform.localScale = Vector3.one * Random.Range(0.35f,1.25f);
                     asteroids.Add(newAsteroid);
                     asteroidSpawn = true;
                 }
