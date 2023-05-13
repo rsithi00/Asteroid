@@ -20,17 +20,17 @@ public class PlayerControls : MonoBehaviour
     {
 
         body = GetComponent<Rigidbody2D>();
-        
+
     }
 
     void Update()
     {
-        if(FindObjectOfType<GameControl>().asteroids.Count == 0)
+        if (FindObjectOfType<GameControl>().asteroids.Count == 0)
         {
             FindObjectOfType<GameControl>().LevelComplete();
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("MenuScene");
         }

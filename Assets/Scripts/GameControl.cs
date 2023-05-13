@@ -26,6 +26,7 @@ public class GameControl : MonoBehaviour
     private Vector3 pos;
     [SerializeField] private GameObject levelComplete;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private AudioSource explode;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +60,8 @@ public class GameControl : MonoBehaviour
 
     public void Death(PlayerControls player)
     {
+        GameObject.FindWithTag("DoNotDestroy").GetComponent<SaveScript>().score = this.score;
+        explode.Play();
         if (lives <= 0)
         {
             SceneManager.LoadScene("GameOverScene");
@@ -101,7 +104,7 @@ public class GameControl : MonoBehaviour
         CompleteBannerOn();
         player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         player.GetComponent<Rigidbody2D>().angularVelocity = 0;
-        
+
 
         AsteroidCount += 2;
         Invoke("CompleteBannerOff", 3.9f);
@@ -136,7 +139,7 @@ public class GameControl : MonoBehaviour
                 else
                 {
                     GameObject newAsteroid = Instantiate(asteroid, pos, Quaternion.identity);
-                    newAsteroid.transform.localScale = Vector3.one * Random.Range(0.35f,1.25f);
+                    newAsteroid.transform.localScale = Vector3.one * Random.Range(0.35f, 1.25f);
                     asteroids.Add(newAsteroid);
                     asteroidSpawn = true;
                 }

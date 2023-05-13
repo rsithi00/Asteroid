@@ -18,7 +18,7 @@ public class AsteroidControl : MonoBehaviour
         if (other.gameObject.CompareTag("bullet"))
         {
             control.AddPoints(points);
-            control.asteroids.RemoveAt(control.asteroids.Count-1);
+            control.asteroids.RemoveAt(control.asteroids.Count - 1);
             Destroy(gameObject);                        // TODO: update the score
         }
     }
