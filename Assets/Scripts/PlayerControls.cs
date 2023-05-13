@@ -18,17 +18,32 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         body = GetComponent<Rigidbody2D>();
+        
     }
 
-   
+    void Update()
+    {
+        if(FindObjectOfType<GameControl>().asteroids.Count == 0)
+        {
+            FindObjectOfType<GameControl>().LevelComplete();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MenuScene");
+        }
+
+    }
+
     void FixedUpdate()
     {
         // Add rotation if necessary
         transform.Rotate(Vector3.forward * currentRotation * rotationSpeed);
 
         // Add thrust if necessary
-        if(applyThrust ) body.AddRelativeForce(Vector3.up * maxThrust);
+        if (applyThrust) body.AddRelativeForce(Vector3.up * maxThrust);
 
     }
 
@@ -37,7 +52,7 @@ public class PlayerControls : MonoBehaviour
         if (context.started)
         {
             // Create a bullet at our location and rotation
-            
+
             Instantiate(bullet, transform.position, transform.rotation);
         }
     }
@@ -46,9 +61,9 @@ public class PlayerControls : MonoBehaviour
     {
 
 
-        if (context.started) applyThrust = true; 
+        if (context.started) applyThrust = true;
         else if (context.canceled) applyThrust = false;
-        
+
     }
 
     public void OnRotate(InputAction.CallbackContext context)
@@ -58,7 +73,14 @@ public class PlayerControls : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("asteroid"))
-            SceneManager.LoadScene("GameOverScene");
+        if (other.gameObject.CompareTag("asteroid"))
+        {
+            body.velocity = Vector3.zero;
+            body.angularVelocity = 0;
+            gameObject.SetActive(false);
+            FindObjectOfType<GameControl>().Death(this);
+        }
+
     }
+
 }
