@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class FinalScoreScript : MonoBehaviour
 {
     [SerializeField] private Text score;
+    [SerializeField] private Text levels;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,7 @@ public class FinalScoreScript : MonoBehaviour
     void Update()
     {
         this.score.text = GameObject.FindWithTag("DoNotDestroy").GetComponent<SaveScript>().score.ToString();
+        this.levels.text = GameObject.FindWithTag("DoNotDestroy").GetComponent<SaveScript>().levels.ToString();
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0))
         {

@@ -7,6 +7,8 @@ public class SaveScript : MonoBehaviour
 {
     public int score { get; set; }
 
+    public int levels { get; set; }
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);

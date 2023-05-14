@@ -28,12 +28,16 @@ public class GameControl : MonoBehaviour
     [SerializeField] private GameObject levelComplete;
     [SerializeField] private Canvas canvas;
     [SerializeField] private AudioSource explode;
+    private string levelText = "LEVEL ";
+    private string completeText = " COMPLETE";
+    private int levelNum;
 
     // Start is called before the first frame update
     void Start()
     {
         SetScore(0);
         SetLives(5);
+        levelNum = 0;
 
         bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 0.0f));
         topRight = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 0.0f));
@@ -111,16 +115,21 @@ public class GameControl : MonoBehaviour
         Invoke("Respawn", 4f);
         Invoke("AsteroidSpawnInitial", 4f);
 
+        GameObject.FindWithTag("DoNotDestroy").GetComponent<SaveScript>().levels = this.levelNum;
     }
 
     public void CompleteBannerOn()
     {
+        levelNum += 1;
+        levelComplete.GetComponent<Text>().text = levelText + levelNum + completeText;
         levelComplete.SetActive(true);
+        
     }
 
     public void CompleteBannerOff()
     {
         levelComplete.SetActive(false);
+        levelNum += 1;
     }
 
     public void AsteroidSpawnInitial()
