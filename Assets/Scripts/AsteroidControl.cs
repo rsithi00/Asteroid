@@ -73,7 +73,7 @@ public class AsteroidControl : MonoBehaviour
     {
         Vector2 position = transform.position;
         position += Random.insideUnitCircle * 0.5f;
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControl>().AsteroidSpawn(position, size * 0.25f);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControl>().AsteroidSpawn(position, size * Random.Range(0.25f,0.5f));
         // GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControl>().AsteroidsLeft += 1;
 
     }
