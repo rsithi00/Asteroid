@@ -6,7 +6,7 @@ public class BulletControl : MonoBehaviour
 {
     [SerializeField] private float force = 5f;
     [SerializeField] private double lifespan = 1;      // How long can this thing live (in seconds)?
-    [SerializeField] GameObject score;
+    
     [SerializeField] AudioSource laser;
 
     private double ttl;                 // How much longer until we self-destruct?

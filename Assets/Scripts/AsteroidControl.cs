@@ -20,7 +20,7 @@ public class AsteroidControl : MonoBehaviour
     {
         if (other.gameObject.CompareTag("bullet"))
         {
-            if ((size * 0.5f) >= 0.65f)
+            if ((size * 0.5f) >= 0.5f)
             {
                 Split();
                 Split();
@@ -51,7 +51,7 @@ public class AsteroidControl : MonoBehaviour
     {
         if (other.gameObject.CompareTag("asteroid"))
         {
-            if ((size * 0.5f) >= 0.5f)
+            if ((size * 0.5f) >= 0.65f)
             {
                 Split();
                 Split();
