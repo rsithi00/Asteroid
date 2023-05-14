@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class GameControl : MonoBehaviour
 {
     public int AsteroidCount = 1;
+    // public int AsteroidsLeft = 0;
     public GameObject asteroid;
 
-    public List<GameObject> asteroids;
+    // public List<GameObject> asteroids;
 
     public int lives { get; set; }
     public int score { get; set; }
@@ -19,7 +20,7 @@ public class GameControl : MonoBehaviour
     [SerializeField] private List<GameObject> livesList = new List<GameObject>();
     [SerializeField] private GameObject life;
     private int index;
-    private float offset = 50;
+    private float offset = 70;
     public PlayerControls player;
     private Vector3 bottomLeft;
     private Vector3 topRight;
@@ -43,8 +44,7 @@ public class GameControl : MonoBehaviour
             GameObject go = Instantiate(life, life.transform.position + new Vector3(index * offset, canvas.renderingDisplaySize.y, 0), life.transform.rotation, canvasList.transform) as GameObject;
             livesList.Add(go);
         }
-
-        AsteroidSpawn();
+        AsteroidSpawnInitial();
 
 
     }
@@ -109,7 +109,7 @@ public class GameControl : MonoBehaviour
         AsteroidCount += 2;
         Invoke("CompleteBannerOff", 3.9f);
         Invoke("Respawn", 4f);
-        Invoke("AsteroidSpawn", 4f);
+        Invoke("AsteroidSpawnInitial", 4f);
 
     }
 
@@ -123,8 +123,9 @@ public class GameControl : MonoBehaviour
         levelComplete.SetActive(false);
     }
 
-    public void AsteroidSpawn()
+    public void AsteroidSpawnInitial()
     {
+        float size = 0;
 
         for (int i = 0; i < AsteroidCount; i++)
         {
@@ -132,19 +133,39 @@ public class GameControl : MonoBehaviour
             while (!asteroidSpawn)
             {
                 pos = new Vector3(Random.Range(bottomLeft.x, topRight.x), Random.Range(bottomLeft.y, topRight.y), 0);
-                if ((pos - transform.position).magnitude < 3)
+                if ((pos - transform.position).magnitude < 5)
                 {
                     continue;
                 }
                 else
                 {
-                    GameObject newAsteroid = Instantiate(asteroid, pos, Quaternion.identity);
-                    newAsteroid.transform.localScale = Vector3.one * Random.Range(0.35f, 1.25f);
-                    asteroids.Add(newAsteroid);
+                    size = Random.Range(0.35f, 1.5f);
+                    AsteroidSpawn(pos, size);
+
                     asteroidSpawn = true;
                 }
             }
+            // AsteroidsLeft = AsteroidCount;
         }
+    }
+
+    public void AsteroidSpawn(Vector2 position, float size)
+
+    {
+        float impulse = 0;
+
+        GameObject newAsteroid = Instantiate(asteroid, position, Quaternion.identity);
+        newAsteroid.transform.localScale = new Vector3(1f,Random.Range(0.25f,1f),1f) * size;
+        newAsteroid.transform.eulerAngles = new Vector3(0f, 0f, Random.value * 360f);
+        newAsteroid.GetComponent<Rigidbody2D>().AddForce(Random.insideUnitCircle.normalized * Random.Range(10f, 50f));
+
+        impulse = (Random.Range(0f, 90f) * Mathf.Deg2Rad) * newAsteroid.GetComponent<Rigidbody2D>().inertia;
+        newAsteroid.GetComponent<Rigidbody2D>().AddTorque(impulse, ForceMode2D.Impulse);
+
+        newAsteroid.GetComponent<AsteroidControl>().size = size;
+        // asteroids.Add(newAsteroid);
+
+        // return newAsteroid;
     }
 
 }

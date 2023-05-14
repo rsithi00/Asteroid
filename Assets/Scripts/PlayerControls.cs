@@ -25,7 +25,7 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
-        if (FindObjectOfType<GameControl>().asteroids.Count == 0)
+        if (GameObject.FindGameObjectsWithTag("asteroid").Length == 0)
         {
             FindObjectOfType<GameControl>().LevelComplete();
         }

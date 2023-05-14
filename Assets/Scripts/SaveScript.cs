@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SaveScript : MonoBehaviour
 {
-    public int score { get; set;}
+    public int score { get; set; }
 
     void Awake()
     {
